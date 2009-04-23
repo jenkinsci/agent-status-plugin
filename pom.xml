@@ -5,11 +5,11 @@
   <artifactId>slave-status</artifactId>
   <packaging>hpi</packaging>
   <name>slave-status</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <url>http://wiki.hudson-ci.org/display/HUDSON/slave-status</url>
   <scm>
-    <connection>scm:svn:https://svn.dev.java.net/svn/hudson</connection>
-    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson</developerConnection>
+    <connection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/slave-status-1.0</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/slave-status-1.0</developerConnection>
   </scm>
   
   <properties>
