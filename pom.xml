@@ -7,7 +7,6 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>com.youdevise.hudson</groupId>
   <artifactId>slave-status</artifactId>
   <packaging>hpi</packaging>
   <name>slave-status</name>
