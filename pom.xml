@@ -7,6 +7,10 @@
   <name>slave-status</name>
   <version>1.0-SNAPSHOT</version>
   <url>http://wiki.hudson-ci.org/display/HUDSON/slave-status</url>
+  <scm>
+    <connection>scm:svn:https://svn.dev.java.net/svn/hudson</connection>
+    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson</developerConnection>
+  </scm>
   
   <properties>
     <!-- which version of Hudson is this plugin built against? -->
