@@ -13,36 +13,15 @@
   <name>slave-status</name>
   <url>http://wiki.hudson-ci.org/display/HUDSON/slave-status</url>
 
-  <repositories>
-    <repository>
-      <id>java.net2</id>
-      <url>http://download.java.net/maven/2/</url>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <forkMode>never</forkMode>
-		  <enableAssertions>false</enableAssertions>
+          <enableAssertions>false</enableAssertions>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
-  <scm>
-    <connection>scm:svn:https://guest@svn.dev.java.net/svn/hudson/tags/slave-status-1.0</connection>
-    <developerConnection>scm:svn:https://svn.dev.java.net/svn/hudson/tags/slave-status-1.0</developerConnection>
-    <url>https://hudson.dev.java.net/source/browse/hudson/hudson/plugins/slave-status/tags/slave-status-1.0</url>
-  </scm>
 </project>
