@@ -23,12 +23,13 @@ import hudson.remoting.Callable;
 import hudson.remoting.Future;
 import hudson.remoting.VirtualChannel;
 import hudson.security.ACL;
-import hudson.security.Permission;
 import hudson.slaves.NodeDescriptor;
+import hudson.slaves.NodeProperty;
+import hudson.slaves.NodePropertyDescriptor;
 import hudson.slaves.RetentionStrategy;
 import hudson.util.ClockDifference;
+import hudson.util.DescribableList;
 
-import org.acegisecurity.AccessDeniedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.kohsuke.stapler.StaplerRequest;
@@ -146,6 +147,8 @@ class MockChannel implements VirtualChannel {
     public <V, T extends Throwable> V call(Callable<V, T> callable) throws IOException, T, InterruptedException { return null; }
     public void close() throws IOException { }
     public <T> T export(Class<T> type, T instance) { return null; }
+    public void join() throws InterruptedException { }
+    public void join(long arg0) throws InterruptedException { }
 }
 
 class MockComputer extends Computer {
@@ -168,7 +171,7 @@ class MockComputer extends Computer {
     @Override public boolean isConnecting() { return false; }
 }
 
-class MockNode implements Node {
+class MockNode extends Node {
     public String getNodeName() { return null; }
     public Computer createComputer() { return null; }
     public Launcher createLauncher(TaskListener listener) { return null; }
@@ -177,17 +180,17 @@ class MockNode implements Node {
     public ClockDifference getClockDifference() throws IOException, InterruptedException { return null; }
     public NodeDescriptor getDescriptor() { return null; }
     public Set<Label> getDynamicLabels() { return null; }
-    public Mode getMode() { return null; }
     public String getNodeDescription() { return null; }
     public int getNumExecutors() { return 0; }
     public FilePath getRootPath() { return null; }
     public Label getSelfLabel() { return null; }
     public FilePath getWorkspaceFor(TopLevelItem item) { return null; }
     public void setNodeName(String name) { }
-    public Computer toComputer() { return null; }
-    public void checkPermission(Permission permission) throws AccessDeniedException { }
     public ACL getACL() { return null; }
-    public boolean hasPermission(Permission permission) { return false; }
+    @Override
+    public Mode getMode() { return null; }
+    @Override
+    public DescribableList<NodeProperty<?>, NodePropertyDescriptor> getNodeProperties() { return null; }
 }
 
 @SuppressWarnings("serial")
