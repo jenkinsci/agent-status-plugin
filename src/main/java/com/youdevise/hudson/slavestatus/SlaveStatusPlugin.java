@@ -12,7 +12,7 @@ public class SlaveStatusPlugin extends Plugin {
     private static final int DEFAULT_PORT = 3141;
 
     private SlaveListenerInitiator initiator;
-    private int port;
+    private int port = DEFAULT_PORT;
     
     public void start() throws Exception {
         load();
