@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import hudson.model.Computer;
+import hudson.model.TaskListener;
 import hudson.slaves.ComputerListener;
 
 public class SlaveListenerInitiator extends ComputerListener {
@@ -34,7 +35,7 @@ public class SlaveListenerInitiator extends ComputerListener {
     }
 
     @Override
-    public void onOnline(Computer slave) {
+    public void onOnline(Computer slave, TaskListener taskListener) {
         getLogger().info(String.format(SLAVE_STARTUP_LOG_MESSAGE, slave.getName()));
         try {
             SlaveListener listener = new SlaveListener(port, reporters.toArray(new StatusReporter[0]));

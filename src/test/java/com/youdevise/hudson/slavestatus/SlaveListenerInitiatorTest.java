@@ -67,8 +67,8 @@ public class SlaveListenerInitiatorTest {
     @Test
     public void startsListenersWhenSlavesStart() throws FormException {
         initiator.register(new DummyReporter());
-        initiator.onOnline(computer1);
-        initiator.onOnline(computer2);
+        initiator.onOnline(computer1, null);
+        initiator.onOnline(computer2, null);
 
         assertNotNull(channel1.callable);
         checkCallable(channel1, PORT_1, DummyReporter.class);
@@ -78,12 +78,12 @@ public class SlaveListenerInitiatorTest {
     
     @Test
     public void canChangePortOnTheFly() throws FormException {
-        initiator.onOnline(computer1);
+        initiator.onOnline(computer1, null);
         assertNotNull(channel1.callable);
         checkCallable(channel1, PORT_1);
 
         initiator.setPort(PORT_2);
-        initiator.onOnline(computer2);
+        initiator.onOnline(computer2, null);
         assertNotNull(channel2.callable);
         checkCallable(channel2, PORT_2);
     }
@@ -114,8 +114,8 @@ public class SlaveListenerInitiatorTest {
     
     @Test 
     public void logsWhenSlavesStart() {
-        initiator.onOnline(computer1);
-        initiator.onOnline(computer2);
+        initiator.onOnline(computer1, null);
+        initiator.onOnline(computer2, null);
         
         logger.verifyLogs(new LogRecord(Level.INFO, STARTUP_LOG_MESSAGE),
                           new LogRecord(Level.INFO, SLAVE_1_START_LOG_MESSAGE),
@@ -125,7 +125,7 @@ public class SlaveListenerInitiatorTest {
     @Test
     public void logsExceptionWhenSlaveCallFails() throws FormException {
         channel1.shouldThrowException = true;
-        initiator.onOnline(computer1); 
+        initiator.onOnline(computer1, null);
         logger.verifyLogs(new LogRecord(Level.INFO, STARTUP_LOG_MESSAGE),
                           new LogRecord(Level.INFO, SLAVE_1_START_LOG_MESSAGE),
                           logger.makeThrowableLogRecord(Level.SEVERE, new IOException()));
@@ -163,7 +163,7 @@ class MockComputer extends Computer {
     @Override public VirtualChannel getChannel() { return channel; }
     @Override public String getName() { return name; }
     
-    @Override public java.util.concurrent.Future<?> connect(boolean forceReconnect) { return null; }
+    @Override public java.util.concurrent.Future<?> _connect(boolean forceReconnect) { return null; }
     @Override public void doLaunchSlaveAgent(StaplerRequest req, StaplerResponse rsp) throws IOException, ServletException { }
     @Override public Charset getDefaultCharset() { return null; }
     @Override public List<LogRecord> getLogRecords() throws IOException, InterruptedException { return null; }
@@ -175,18 +175,19 @@ class MockNode extends Node {
     public String getNodeName() { return null; }
     public Computer createComputer() { return null; }
     public Launcher createLauncher(TaskListener listener) { return null; }
-    public FilePath createPath(String absolutePath) { return null; }
-    public Set<Label> getAssignedLabels() { return null; }
+    @Override public FilePath createPath(String absolutePath) { return null; }
+    @Override public Set<Label> getAssignedLabels() { return null; }
     public ClockDifference getClockDifference() throws IOException, InterruptedException { return null; }
     public NodeDescriptor getDescriptor() { return null; }
+    public String getLabelString() { return null; }
     public Set<Label> getDynamicLabels() { return null; }
     public String getNodeDescription() { return null; }
     public int getNumExecutors() { return 0; }
     public FilePath getRootPath() { return null; }
-    public Label getSelfLabel() { return null; }
+    @Override public Label getSelfLabel() { return null; }
     public FilePath getWorkspaceFor(TopLevelItem item) { return null; }
-    public void setNodeName(String name) { }
-    public ACL getACL() { return null; }
+    @Override public void setNodeName(String name) { }
+    @Override public ACL getACL() { return null; }
     @Override
     public Mode getMode() { return null; }
     @Override
