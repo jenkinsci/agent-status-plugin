@@ -13,6 +13,13 @@
   <name>slave-status</name>
   <url>http://wiki.hudson-ci.org/display/HUDSON/slave-status</url>
 
+  <developers>
+    <developer>
+      <id>douglassquirrel</id>
+      <name>Douglas Squirrel</name>
+    </developer>
+  </developers>
+
   <build>
     <plugins>
       <plugin>
