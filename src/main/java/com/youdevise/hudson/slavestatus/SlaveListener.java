@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.remoting.Callable;
+import org.jenkinsci.remoting.RoleChecker;
 
 import static com.youdevise.hudson.slavestatus.Daemon.RunType;
 import static com.youdevise.hudson.slavestatus.Daemon.RunResult;
@@ -56,35 +58,34 @@ public class SlaveListener implements Callable<Object, Throwable>, Serializable 
 
         logger.info("Slave-status listener starting");
         
-        Daemon daemon = new Daemon(new DaemonRunner() {
-            public RunResult run() {
-                logger.fine("Slave-status listener waiting for connection");
-                try {
-                    httpListener.waitForConnection();
-                } catch (IOException e) {
-                    logger.log(Level.SEVERE, "Could not listen on port", e);
-                    return RunResult.ABORT;
-                }
-                try {
-                    logger.fine("Slave-status listener got connection");
-                    readAndIgnoreInput(httpListener);
-                    logger.fine("Slave-status listener read input");
-                    httpListener.getOutputStream().write(getOutput());
-                    logger.fine("Slave-status listener wrote output");
-                    httpListener.flushAndClose();
-                    logger.fine("Slave-status listener flushed and closed connection");
-                } catch (IOException e) {
-                    logger.log(Level.SEVERE, "Exception when handling request", e);
-                }
-                return RunResult.CONTINUE;
+        Daemon daemon = new Daemon(() -> {
+            logger.fine("Slave-status listener waiting for connection");
+            try {
+                httpListener.waitForConnection();
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Could not listen on port", e);
+                return RunResult.ABORT;
             }
+            try {
+                logger.fine("Slave-status listener got connection");
+                readAndIgnoreInput(httpListener);
+                logger.fine("Slave-status listener read input");
+                httpListener.getOutputStream().write(getOutput());
+                logger.fine("Slave-status listener wrote output");
+                httpListener.flushAndClose();
+                logger.fine("Slave-status listener flushed and closed connection");
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Exception when handling request", e);
+            }
+            return RunResult.CONTINUE;
         });
         
         return daemon.go(runType);
     }
-    
+
+    @SuppressFBWarnings(value = "DM_DEFAULT_ENCODING", justification = "TODO triage")
     private byte[] getOutput() {
-        StringBuffer xml = new StringBuffer();
+        StringBuilder xml = new StringBuilder();
         xml.append("<slave>");
         for (StatusReporter reporter : reporters) {
             xml.append(String.format("<%s>%s</%s>", reporter.getName(), reporter.getContent(), reporter.getName()));
@@ -92,7 +93,8 @@ public class SlaveListener implements Callable<Object, Throwable>, Serializable 
         xml.append("</slave>");
         return (HTTP_HEADERS + xml).getBytes();
     }
-    
+
+    @SuppressFBWarnings(value = "DM_DEFAULT_ENCODING", justification = "TODO triage")
     private void readAndIgnoreInput(HTTPListener httpListener) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(httpListener.getInputStream()));
         String line;
@@ -103,6 +105,11 @@ public class SlaveListener implements Callable<Object, Throwable>, Serializable 
     
     public int getPort() { return port; }
     public List<StatusReporter> getReporters() { return reporters; }
+
+    @Override
+    public void checkRoles(RoleChecker checker) throws SecurityException {
+
+    }
 }
 
 interface HTTPListener {
