@@ -177,6 +177,11 @@ class MockChannel implements VirtualChannel {
         return null;
     }
 
+    @Override
+    public void syncLocalIO() throws InterruptedException {
+
+    }
+
     public void join() throws InterruptedException {
     }
 
@@ -204,6 +209,11 @@ class MockComputer extends Computer {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Boolean isUnix() {
+        return null;
     }
 
     @Override
@@ -267,6 +277,11 @@ class MockNode extends Node {
     @Override
     public ClockDifference getClockDifference() throws IOException,
             InterruptedException {
+        return null;
+    }
+
+    @Override
+    public Callable<ClockDifference, IOException> getClockDifferenceCallable() {
         return null;
     }
 

@@ -1,4 +1,5 @@
+<?jelly escape-by-default='true'?>
 <div>
-  Visit a url like http://myslave:3141 to see an XML document giving the slave's status. Use automated tools like
+  Visit a url like http://myjenkins:3141 to see an XML document giving the agent's status. Use automated tools like
   curl or nagios to check this data periodically, if you want to.
 </div>
