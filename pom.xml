@@ -34,6 +34,7 @@
     <relativePath />
   </parent>
 
+  <groupId>org.jvnet.hudson.plugins</groupId>
   <artifactId>slave-status</artifactId>
   <version>${changelist}</version>
   <packaging>hpi</packaging>
